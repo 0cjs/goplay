@@ -1,7 +1,10 @@
 package main
 
-import "fmt"
+import (
+    "fmt"
+    "github.com/c-j-s/goplay/stringutil"
+)
 
 func main() {
-    fmt.Printf("Hello, 世界.\n")
+    fmt.Printf("Reversed: %s\n", stringutil.Reverse(".界世 ,olleH"))
 }
