@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -e
+
+export base_dir="$(cd $(dirname "$0") && pwd -P)"
+
+cd "$base_dir"
+
+#
+#  Unit Tests
+#
+
+go test ./...
+
+#
+#  Functional/System Tests
+#
+
+# We can test without installing...
+#
+output="$(go run mains/chello/hello.go)"
+expected="Reversed: Hello, 世界."
+[ "$expected" = "$output" ] || {
+    echo " FAILURE:"
+    echo "Expected: $expected"
+    echo "  Actual: $output"
+}
+
+# ...or after a full install
+#
+go install ./...
+PATH=$GOPATH/bin:$PATH
+output="$(cgoodbye)"
+expected="Goodbye, cruel world."
+[ "$expected" = "$output" ] || {
+    echo " FAILURE:"
+    echo "Expected: $expected"
+    echo "  Actual: $output"
+}
